@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { MdAddShoppingCart } from 'react-icons/md';
 import { ProductList } from './styles';
 import { formatPrice } from '../../util/format';
 import api from '../../services/api';
 
-export default class Home extends Component {
+class Home extends Component {
   state = {
     products: [],
   };
@@ -20,6 +21,15 @@ export default class Home extends Component {
     this.setState({ products: data });
   }
 
+  handleAddProduct = product => {
+    const { dispatch } = this.props; // dispatch utilizado para disparar as actions do redux, actions que dizem para o redux que desejamos fazer alguma alteração em nosso state: add, remove, update etc
+
+    dispatch({
+      type: 'ADD_TO_CART', // obrigatorio passar o type da action
+      product, // produtos que será adicionado ao carrinho
+    });
+  };
+
   render() {
     const { products } = this.state;
 
@@ -30,9 +40,12 @@ export default class Home extends Component {
             <img src={product.image} alt={product.title} />
 
             <strong>{product.title}</strong>
-            <span>{product.priceFormatted}</span>
+            <span>{product.priceFormatte}</span>
 
-            <button type="button">
+            <button
+              type="button"
+              onClick={() => this.handleAddProduct(product)}
+            >
               <div>
                 <MdAddShoppingCart size={16} color="#fff" /> 3
               </div>
@@ -45,3 +58,4 @@ export default class Home extends Component {
     );
   }
 }
+export default connect()(Home); // conexão com redux
