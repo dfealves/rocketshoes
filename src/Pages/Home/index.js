@@ -24,10 +24,10 @@ class Home extends Component {
     this.setState({ products: data });
   }
 
-  handleAddProduct = product => {
-    const { addToCart } = this.props; // dispatch utilizado para disparar as actions do redux, actions que dizem para o redux que desejamos fazer alguma alteração em nosso state: add, remove, update etc
+  handleAddProduct = id => {
+    const { addToCartRequest } = this.props; // dispatch utilizado para disparar as actions do redux, actions que dizem para o redux que desejamos fazer alguma alteração em nosso state: add, remove, update etc
 
-    addToCart(product);
+    addToCartRequest(id);
   };
 
   render() {
@@ -45,7 +45,7 @@ class Home extends Component {
 
             <button
               type="button"
-              onClick={() => this.handleAddProduct(product)}
+              onClick={() => this.handleAddProduct(product.id)}
             >
               <div>
                 <MdAddShoppingCart size={16} color="#fff" />{' '}

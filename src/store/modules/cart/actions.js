@@ -1,7 +1,14 @@
-export function addToCart(product) {
+export function addToCartRequest(id) {
   return {
-    type: '@cart/ADD', // obrigatorio passar o type da action
-    product, // produtos que será adicionado ao carrinho
+    type: '@cart/ADD_REQUEST', // obrigatorio passar o type da action
+    id, // produtos que será adicionado ao carrinho
+  };
+}
+
+export function addToCartSucess(product) {
+  return {
+    type: '@cart/ADD_SUCCESS',
+    product,
   };
 }
 

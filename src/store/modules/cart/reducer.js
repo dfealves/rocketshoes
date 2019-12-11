@@ -3,7 +3,7 @@ import produce from 'immer';
 export default function cart(state = [], action) {
   // esse switch vai garantir que o reducer do carrinho, escute somente o 'ADD_TO_CART'
   switch (action.type) {
-    case '@cart/ADD':
+    case '@cart/ADD_SUCCESS':
       // Caso seja um ADD_TO_CART, vai pegar todo o state atual e add dentro do carrinho e um product ao final
       return produce(state, draft => {
         // todas alterações feitas aqui, serão refletidas no state
