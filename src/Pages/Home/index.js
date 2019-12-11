@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { MdAddShoppingCart } from 'react-icons/md';
 import { ProductList } from './styles';
 import { formatPrice } from '../../util/format';
 import api from '../../services/api';
+
+import * as CartActions from '../../store/modules/cart/actions';
 
 class Home extends Component {
   state = {
@@ -22,16 +25,14 @@ class Home extends Component {
   }
 
   handleAddProduct = product => {
-    const { dispatch } = this.props; // dispatch utilizado para disparar as actions do redux, actions que dizem para o redux que desejamos fazer alguma alteração em nosso state: add, remove, update etc
+    const { addToCart } = this.props; // dispatch utilizado para disparar as actions do redux, actions que dizem para o redux que desejamos fazer alguma alteração em nosso state: add, remove, update etc
 
-    dispatch({
-      type: 'ADD_TO_CART', // obrigatorio passar o type da action
-      product, // produtos que será adicionado ao carrinho
-    });
+    addToCart(product);
   };
 
   render() {
     const { products } = this.state;
+    const { amount } = this.props;
 
     return (
       <ProductList>
@@ -47,7 +48,8 @@ class Home extends Component {
               onClick={() => this.handleAddProduct(product)}
             >
               <div>
-                <MdAddShoppingCart size={16} color="#fff" /> 3
+                <MdAddShoppingCart size={16} color="#fff" />{' '}
+                {amount[product.id] || 0}
               </div>
 
               <span>ADICIONAR AO CARRINHO</span>
@@ -58,4 +60,18 @@ class Home extends Component {
     );
   }
 }
-export default connect()(Home); // conexão com redux
+
+// disponibilizando um state para que cada produto saiba quantos dele já estão no carrinho
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.amount;
+
+    return amount;
+  }, {}), // passando um objeto vazio para que seja iniciado como um 0
+});
+
+// converte actions do redux em propriedades dos componentes
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home); // conexão com redux
