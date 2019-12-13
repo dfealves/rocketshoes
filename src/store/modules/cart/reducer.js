@@ -6,19 +6,9 @@ export default function cart(state = [], action) {
     case '@cart/ADD_SUCCESS':
       // Caso seja um ADD_TO_CART, vai pegar todo o state atual e add dentro do carrinho e um product ao final
       return produce(state, draft => {
-        // todas alterações feitas aqui, serão refletidas no state
-        // verificando se o produto add é repetido, para somar a quantidade e não add como se fosse outro produto
-        const productIndex = draft.findIndex(p => p.id === action.product.id);
-        if (productIndex >= 0) {
-          // verificando se um item existe dentro de um array, se existir ele vai somar como o que ja tem add ao carrinho
-          draft[productIndex].amount += 1;
-        } else {
-          // se não, add um novo produto
-          draft.push({
-            ...action.product,
-            amount: 1,
-          });
-        }
+        const { product } = action;
+
+        draft.push(product);
       });
 
     // removendo produto do carrinho
@@ -32,11 +22,8 @@ export default function cart(state = [], action) {
         }
       });
     // alteração quantidade de produtos no carrinho
-    case '@cart/UPDATE_AMOUNT': {
+    case '@cart/UPDATE_AMOUNT_SUCCESS': {
       return produce(state, draft => {
-        if (action.amount <= 0) {
-          return state;
-        }
         const productIndex = draft.findIndex(p => p.id === action.id);
 
         if (productIndex >= 0) {

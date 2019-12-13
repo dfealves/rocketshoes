@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   padding: 30px;
@@ -26,6 +27,22 @@ export const Container = styled.div`
         background: ${darken(0.03, '#7159c1')};
       }
     }
+  }
+`;
+
+export const BuyMore = styled(Link)`
+  background: #7159c1;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  padding: 12px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background 0.2s;
+  text-decoration: none;
+
+  &:hover {
+    background: ${darken(0.03, '#7159c1')};
   }
 `;
 
