@@ -22,7 +22,7 @@ export default function cart(state = [], action) {
         }
       });
     // alteração quantidade de produtos no carrinho
-    case '@cart/UPDATE_AMOUNT_SUCCESS': {
+    case '@cart/UPDATE_AMOUNT_SUCCESS':
       return produce(state, draft => {
         const productIndex = draft.findIndex(p => p.id === action.id);
 
@@ -30,7 +30,6 @@ export default function cart(state = [], action) {
           draft[productIndex].amount = Number(action.amount);
         }
       });
-    }
     default:
       // Caso ele receba um ação que não seja do tipo 'ADD_TO_CART' será devolvido o state sem nenhuma alteração
       return state;
